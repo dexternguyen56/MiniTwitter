@@ -20,7 +20,7 @@ import java.awt.event.ActionListener;
 /**
  * @author Tran Nguyen
  * 
- * Admin Control Panel uses singleton pattern to show all components
+ * Admin Control Panel uses singleton pattern to show all components.
  *
  */
 public class AdminControlPanel {
@@ -66,7 +66,8 @@ public class AdminControlPanel {
 	
 
 	private void createPanel() {
-	
+		
+		// Initiate the admid panel
 		frame = new JFrame("Admin Control");
 		frame.setBounds(100, 100, 631, 498);
 	    frame.getContentPane().setLayout(null);
@@ -115,8 +116,7 @@ public class AdminControlPanel {
 				if (!textUser.getText().equals("")) {
 					DefaultMutableTreeNode newNode;
 
-					if (currentNodeSelection != null && 
-							currentNodeSelection.getUserObject() instanceof UserGroup) {
+					if (currentNodeSelection != null && currentNodeSelection.getUserObject() instanceof UserGroup) {
 						newNode = userTree.addUser(textUser.getText(), currentNodeSelection);
 					} else {
 						
@@ -172,6 +172,7 @@ public class AdminControlPanel {
 	    
 	    btnOpenUserView = new JButton("Open User View");
 	    btnOpenUserView.setBounds(280, 135, 327, 48);
+	    frame.getContentPane().add(btnOpenUserView);
 	    btnOpenUserView.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (currentNodeSelection != null && currentNodeSelection.getUserObject() instanceof User) {
@@ -179,10 +180,12 @@ public class AdminControlPanel {
 	    		} 
 			}
 		});
-	    frame.getContentPane().add(btnOpenUserView);
+	    
 	    
 
 	    btnUserTotal = new JButton("Show User Total");
+	    btnUserTotal.setBounds(279, 343, 160, 48);
+	    frame.getContentPane().add(btnUserTotal );
 	    btnUserTotal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 	
@@ -195,8 +198,7 @@ public class AdminControlPanel {
 				statPanel.setVisible(true);
 			}
 		});
-	    btnUserTotal.setBounds(279, 343, 160, 48);
-	    frame.getContentPane().add(btnUserTotal );
+
 	    
 	    
 	    
@@ -204,6 +206,8 @@ public class AdminControlPanel {
 	    
 
 	    btnGroupTotal = new JButton("Show Group Total");
+	    btnGroupTotal.setBounds(448, 343, 159, 48);
+	    frame.getContentPane().add(btnGroupTotal);  
 	    btnGroupTotal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				statistic = ((Entry)userTree.getRoot().getUserObject()).accept(new GroupTotalVisitor());
@@ -216,14 +220,13 @@ public class AdminControlPanel {
 			}
 		});
 
-	    btnGroupTotal.setBounds(448, 343, 159, 48);
-	    frame.getContentPane().add(btnGroupTotal);
-	    
 	    
 	    
 
 	    
 	    btnMsgTotal= new JButton("Show Messages Total");
+	    btnMsgTotal.setBounds(280, 402, 159, 48);
+	    frame.getContentPane().add(btnMsgTotal);
 	    btnMsgTotal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				statistic = ((Entry)userTree.getRoot().getUserObject()).accept(new MessagesTotalVisitor());
@@ -238,12 +241,10 @@ public class AdminControlPanel {
 			}
 		});
 
-	    btnMsgTotal.setBounds(280, 402, 159, 48);
-	    frame.getContentPane().add(btnMsgTotal);
-	    
     
 
 	    btnPosPercent= new JButton("Show Positive Percentage");
+	    btnPosPercent.setBounds(448, 402, 159, 48);
 	    btnPosPercent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				statistic = ((Entry)userTree.getRoot().getUserObject()).accept(new PositivePercentageVisitor());
@@ -263,7 +264,7 @@ public class AdminControlPanel {
 			}
 		});
 
-	    btnPosPercent.setBounds(448, 402, 159, 48);
+	    
 	    frame.getContentPane().add(btnPosPercent);
 
 	}

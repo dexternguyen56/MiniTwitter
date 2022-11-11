@@ -23,7 +23,7 @@ public class StatisticPanel extends JDialog {
 	
 	private JButton btnClose;
 	
-	private JTextArea mainText;
+	private JTextArea textStatistic;
 
 
 	public static void main(String[] args) {
@@ -41,7 +41,7 @@ public class StatisticPanel extends JDialog {
 	
 	public StatisticPanel(String text) {
 		this();
-		mainText.setText(text);
+		textStatistic.setText(text);
 	}
 	
 	public StatisticPanel() {
@@ -55,7 +55,7 @@ public class StatisticPanel extends JDialog {
 		setType(Type.POPUP);
 		setBounds(200, 200, 400, 200);
 	
-		
+		// Build the close button
 		btnClose = new JButton("Close");
 		btnClose.setBounds(150, 100, 100, 30);
 		getContentPane().add(btnClose);
@@ -65,12 +65,13 @@ public class StatisticPanel extends JDialog {
 			}
 		});
 		
-		mainText = new JTextArea();
+		// Build the statistic text
+		textStatistic = new JTextArea();
 	
-		mainText.setBackground(UIManager.getColor("Button.background"));
-    	mainText.setEditable(false);
-		mainText.setBounds(100, 30, 200, 60);
-		getContentPane().add(mainText);
+		textStatistic.setBackground(UIManager.getColor("Button.background"));
+    	textStatistic.setEditable(false);
+		textStatistic.setBounds(100, 30, 200, 60);
+		getContentPane().add(textStatistic);
 	}
 	
 
