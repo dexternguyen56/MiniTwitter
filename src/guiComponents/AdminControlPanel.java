@@ -77,17 +77,17 @@ public class AdminControlPanel {
 	    tree = treeData.getTree();
 	   
 	    tree.setCellRenderer(new CustomDefaultTreeCellRenderer());
-	    
+	    // Get the latest selecth path or return null
 	    tree.addTreeSelectionListener(new TreeSelectionListener() {
 	        public void valueChanged(TreeSelectionEvent e) {
-	        	DefaultMutableTreeNode current = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
-	        	if (current != null) {
-	        		currentNode = current;
+	        	DefaultMutableTreeNode node = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
+	        	if (node != null) {
+	        		currentNode = node;
 	        	}
 	        }
 	    });
 	    
-	    
+	    // Build the tree view
 	    scrollPane  = new JScrollPane();
 		scrollPane.setBounds(10, 11, 260, 439);
 		scrollPane.setViewportView(tree);
@@ -96,7 +96,7 @@ public class AdminControlPanel {
 	    
 	    treeModel = (DefaultTreeModel)tree.getModel();
 	    
-
+	    // Build add user text and button
 	    textUser = new JTextField();
 	    textUser.setBounds(280, 11, 158, 48);
 	    frame.getContentPane().add(textUser);
@@ -104,13 +104,11 @@ public class AdminControlPanel {
 		
 	    JButton addUser = new JButton("Add User");
 	    addUser.setBounds(448, 11, 159, 48);
-	    
-
 	    frame.getContentPane().add(addUser);
 	    
 	    addUser.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				//if the text is not empty
 				if (!textUser.getText().equals("")) {
 					DefaultMutableTreeNode newNode;
 
@@ -136,7 +134,7 @@ public class AdminControlPanel {
 			}
 	    });
 	    
-	    
+	    // Build add group text and button
 	    textGroup = new JTextField();
 	    textGroup.setBounds(280, 70, 158, 54);
 	    frame.getContentPane().add(textGroup);
@@ -147,11 +145,10 @@ public class AdminControlPanel {
 	    frame.getContentPane().add(addGroup);
 	    addGroup.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
-	    		
+	    		//if the text is not empty
 				if (!textGroup.getText().equals("")) {
 					DefaultMutableTreeNode newNode;
-					if (currentNode != null && 
-							currentNode.getUserObject() instanceof UserGroup) {
+					if (currentNode != null && currentNode.getUserObject() instanceof UserGroup) {
 						newNode = treeData.addGroup(textGroup.getText(), currentNode);
 					} else {
 						currentNode = (DefaultMutableTreeNode)currentNode.getParent();
@@ -167,7 +164,7 @@ public class AdminControlPanel {
 		    }
 	    });
 	   
-	    
+	    // Build open user view button
 	    btnOpenUserView = new JButton("Open User View");
 	    btnOpenUserView.setBounds(280, 135, 327, 48);
 	    frame.getContentPane().add(btnOpenUserView);
@@ -180,7 +177,7 @@ public class AdminControlPanel {
 		});
 	    
 	    
-
+	    // Build show user total
 	    btnUserTotal = new JButton("Show User Total");
 	    btnUserTotal.setBounds(279, 343, 160, 48);
 	    frame.getContentPane().add(btnUserTotal );
@@ -202,7 +199,7 @@ public class AdminControlPanel {
 	    
 	    
 	    
-
+	    // Build show group total
 	    btnGroupTotal = new JButton("Show Group Total");
 	    btnGroupTotal.setBounds(448, 343, 159, 48);
 	    frame.getContentPane().add(btnGroupTotal);  
@@ -221,7 +218,7 @@ public class AdminControlPanel {
 	    
 	    
 
-	    
+	    // build show messages total
 	    btnMsgTotal= new JButton("Show Messages Total");
 	    btnMsgTotal.setBounds(280, 402, 159, 48);
 	    frame.getContentPane().add(btnMsgTotal);
@@ -240,7 +237,7 @@ public class AdminControlPanel {
 		});
 
     
-
+	    // Build show positive percentage 
 	    btnPosPercent= new JButton("Show Positive Percentage");
 	    btnPosPercent.setBounds(448, 402, 159, 48);
 	    btnPosPercent.addActionListener(new ActionListener() {
