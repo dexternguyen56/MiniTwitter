@@ -26,14 +26,12 @@ import java.awt.event.ActionListener;
 public class AdminControlPanel {
 	
 	private static AdminControlPanel instance; 
-	private DefaultMutableTreeNode currentNodeSelection;
-	private TreeData userTree;
+	private DefaultMutableTreeNode currentNode;
+	private TreeData treeData;
 	
 	private JTree tree;
-	
 	private JScrollPane scrollPane;
-	
-	private DefaultTreeModel model;
+	private DefaultTreeModel treeModel;
 	
 	JFrame frame;
 	
@@ -58,7 +56,7 @@ public class AdminControlPanel {
 	
 
 	private AdminControlPanel() {
-		userTree = new TreeData();
+		treeData = new TreeData();
 		createPanel();
 	    frame.setVisible(true); 
 		
@@ -76,7 +74,7 @@ public class AdminControlPanel {
 	    
 	   
 
-	    tree = userTree.getTree();
+	    tree = treeData.getTree();
 	   
 	    tree.setCellRenderer(new CustomDefaultTreeCellRenderer());
 	    
@@ -84,7 +82,7 @@ public class AdminControlPanel {
 	        public void valueChanged(TreeSelectionEvent e) {
 	        	DefaultMutableTreeNode current = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
 	        	if (current != null) {
-	        		currentNodeSelection = current;
+	        		currentNode = current;
 	        	}
 	        }
 	    });
@@ -96,7 +94,7 @@ public class AdminControlPanel {
 		frame.getContentPane().add(scrollPane);
 		
 	    
-	    model = (DefaultTreeModel)tree.getModel();
+	    treeModel = (DefaultTreeModel)tree.getModel();
 	    
 
 	    textUser = new JTextField();
@@ -116,21 +114,21 @@ public class AdminControlPanel {
 				if (!textUser.getText().equals("")) {
 					DefaultMutableTreeNode newNode;
 
-					if (currentNodeSelection != null && currentNodeSelection.getUserObject() instanceof UserGroup) {
-						newNode = userTree.addUser(textUser.getText(), currentNodeSelection);
+					if (currentNode != null && currentNode.getUserObject() instanceof UserGroup) {
+						newNode = treeData.addUser(textUser.getText(), currentNode);
 					} else {
 						
-						currentNodeSelection = (DefaultMutableTreeNode)currentNodeSelection.getParent();
-						newNode = userTree.addUser(textUser.getText(),currentNodeSelection);
+						currentNode = (DefaultMutableTreeNode)currentNode.getParent();
+						newNode = treeData.addUser(textUser.getText(),currentNode);
 					} 
 					
 					if (newNode != null) {
-						model.reload();
+						treeModel.reload();
 					}
 						
 		
 					textUser.setText("");
-					currentNodeSelection = (DefaultMutableTreeNode)model.getRoot();
+					currentNode = (DefaultMutableTreeNode)treeModel.getRoot();
 		
 				}
 				
@@ -152,18 +150,18 @@ public class AdminControlPanel {
 	    		
 				if (!textGroup.getText().equals("")) {
 					DefaultMutableTreeNode newNode;
-					if (currentNodeSelection != null && 
-							currentNodeSelection.getUserObject() instanceof UserGroup) {
-						newNode = userTree.addGroup(textGroup.getText(), currentNodeSelection);
+					if (currentNode != null && 
+							currentNode.getUserObject() instanceof UserGroup) {
+						newNode = treeData.addGroup(textGroup.getText(), currentNode);
 					} else {
-						currentNodeSelection = (DefaultMutableTreeNode)currentNodeSelection.getParent();
-						newNode = userTree.addGroup(textGroup.getText(),currentNodeSelection);
+						currentNode = (DefaultMutableTreeNode)currentNode.getParent();
+						newNode = treeData.addGroup(textGroup.getText(),currentNode);
 					} 
 					if (newNode != null) {
-						model.reload();
+						treeModel.reload();
 					}
 					textGroup.setText("");
-					currentNodeSelection = (DefaultMutableTreeNode)model.getRoot();
+					currentNode = (DefaultMutableTreeNode)treeModel.getRoot();
 				}
 				
 		    }
@@ -175,8 +173,8 @@ public class AdminControlPanel {
 	    frame.getContentPane().add(btnOpenUserView);
 	    btnOpenUserView.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (currentNodeSelection != null && currentNodeSelection.getUserObject() instanceof User) {
-					new UserView(userTree, currentNodeSelection);
+				if (currentNode != null && currentNode.getUserObject() instanceof User) {
+					new UserView(treeData, currentNode);
 	    		} 
 			}
 		});
@@ -189,7 +187,7 @@ public class AdminControlPanel {
 	    btnUserTotal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 	
-				statistic = ((Entry)userTree.getRoot().getUserObject()).accept(new UserTotalVisitor());
+				statistic = ((Entry)treeData.getRoot().getUserObject()).accept(new UserTotalVisitor());
 				
 
 				message = String.format("Mini Twitter has %d users.", statistic);
@@ -210,7 +208,7 @@ public class AdminControlPanel {
 	    frame.getContentPane().add(btnGroupTotal);  
 	    btnGroupTotal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				statistic = ((Entry)userTree.getRoot().getUserObject()).accept(new GroupTotalVisitor());
+				statistic = ((Entry)treeData.getRoot().getUserObject()).accept(new GroupTotalVisitor());
 				
 				message = String.format("Mini Twitter has %d groups.", statistic);
 	
@@ -229,7 +227,7 @@ public class AdminControlPanel {
 	    frame.getContentPane().add(btnMsgTotal);
 	    btnMsgTotal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				statistic = ((Entry)userTree.getRoot().getUserObject()).accept(new MessagesTotalVisitor());
+				statistic = ((Entry)treeData.getRoot().getUserObject()).accept(new MessagesTotalVisitor());
 				
 
 				message= String.format("Mini Twitter has %d messages.", statistic);
@@ -247,10 +245,10 @@ public class AdminControlPanel {
 	    btnPosPercent.setBounds(448, 402, 159, 48);
 	    btnPosPercent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				statistic = ((Entry)userTree.getRoot().getUserObject()).accept(new PositivePercentageVisitor());
+				statistic = ((Entry)treeData.getRoot().getUserObject()).accept(new PositivePercentageVisitor());
 				
 
-			    int totalMsg = ((Entry)userTree.getRoot().getUserObject()).accept(new MessagesTotalVisitor());
+			    int totalMsg = ((Entry)treeData.getRoot().getUserObject()).accept(new MessagesTotalVisitor());
 				
 			    
 			    double result = (totalMsg == 0) ? 0.0 : (((double) statistic / totalMsg) * 100);
