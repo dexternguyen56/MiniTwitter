@@ -13,6 +13,12 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+/**
+ * @author Tran Nguyen
+ * 
+ * Statistics panel to show the results from visitors
+ *
+ */
 public class StatisticPanel extends JDialog {
 	
 	private JButton btnClose;
@@ -39,29 +45,31 @@ public class StatisticPanel extends JDialog {
 	}
 	
 	public StatisticPanel() {
+		
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		setType(Type.POPUP);
-		setModal(true);
-		setResizable(false);
-		setBounds(100, 100, 300, 150);
 		getContentPane().setLayout(null);
 		
+		setModal(true);
+		setResizable(false);
+		
+		setType(Type.POPUP);
+		setBounds(200, 200, 400, 200);
+	
+		
 		btnClose = new JButton("Close");
+		btnClose.setBounds(150, 100, 100, 30);
+		getContentPane().add(btnClose);
 		btnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		});
-		btnClose.setBounds(111, 72, 73, 23);
-		getContentPane().add(btnClose);
 		
 		mainText = new JTextArea();
 	
 		mainText.setBackground(UIManager.getColor("Button.background"));
-		mainText.setLineWrap(true);
-		mainText.setWrapStyleWord(true);
-		mainText.setEditable(false);
-		mainText.setBounds(33, 11, 216, 50);
+    	mainText.setEditable(false);
+		mainText.setBounds(100, 30, 200, 60);
 		getContentPane().add(mainText);
 	}
 	

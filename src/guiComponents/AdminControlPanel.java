@@ -5,10 +5,6 @@ import visitor.PositivePercentageVisitor;
 import visitor.UserTotalVisitor;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import javax.swing.tree.*;
 
 import miniTwitter.Entry;
@@ -18,19 +14,17 @@ import miniTwitter.UserGroup;
 
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
-
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dialog;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
-import miniTwitter.*;
-
+/**
+ * @author Tran Nguyen
+ * 
+ * Admin Control Panel uses singleton pattern to show all components
+ *
+ */
 public class AdminControlPanel {
+	
 	private static AdminControlPanel instance; 
 	private DefaultMutableTreeNode currentNodeSelection;
 	private TreeData userTree;
@@ -65,7 +59,6 @@ public class AdminControlPanel {
 
 	private AdminControlPanel() {
 		userTree = new TreeData();
-		//userTree.fillWithDummyData();
 		createPanel();
 	    frame.setVisible(true); 
 		

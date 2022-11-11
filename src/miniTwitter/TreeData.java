@@ -7,7 +7,7 @@ import javax.swing.tree.*;
 /**
  * @author Tran Nguyen
  * 
- * TreeData class that holds the name of users, groups, and Jtree
+ * TreeData class that holds the name of users, groups, and Jtree as composite pattern
  *
  */
 public class TreeData {
