@@ -25,7 +25,7 @@ public class StatisticPanel extends JDialog {
 	
 	private JTextArea textStatistic;
 
-
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {

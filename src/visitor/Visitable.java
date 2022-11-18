@@ -1,7 +1,4 @@
-package miniTwitter;
-
-import visitor.EntryVisitor;
-
+package visitor;
 
 /**
  * @author Tran Nguyen
@@ -10,5 +7,5 @@ import visitor.EntryVisitor;
  *
  */
 public interface Visitable {
-	int accept(EntryVisitor visitor);
+	abstract public int accept(EntryVisitor visitor);
 }

@@ -33,19 +33,19 @@ public class AdminControlPanel {
 	private JScrollPane scrollPane;
 	private DefaultTreeModel treeModel;
 	
-	JFrame frame;
+	private JFrame frame;
 	
-	JTextField textUser;
-	JTextField textGroup;
+	private JTextField textUser;
+	private JTextField textGroup;
 	
-	JButton btnPosPercent;
-	JButton btnMsgTotal;
-	JButton btnGroupTotal;
-	JButton btnUserTotal ;
-	JButton btnOpenUserView;
+	private JButton btnPosPercent;
+	private JButton btnMsgTotal;
+	private JButton btnGroupTotal;
+	private JButton btnUserTotal ;
+	private JButton btnOpenUserView;
 	
 	int statistic;
-	String message;
+	private String message;
 
 	public static AdminControlPanel getInstance() {
 		if (instance == null) {
@@ -77,7 +77,7 @@ public class AdminControlPanel {
 	    tree = treeData.getTree();
 	   
 	    tree.setCellRenderer(new CustomDefaultTreeCellRenderer());
-	    // Get the latest selecth path or return null
+	    // Get the latest selected path or return null
 	    tree.addTreeSelectionListener(new TreeSelectionListener() {
 	        public void valueChanged(TreeSelectionEvent e) {
 	        	DefaultMutableTreeNode node = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();

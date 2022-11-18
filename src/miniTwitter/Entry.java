@@ -1,6 +1,7 @@
 package miniTwitter;
 
 import visitor.EntryVisitor;
+import visitor.Visitable;
 
 /**
  * @author Tran Nguyen

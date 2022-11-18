@@ -15,7 +15,7 @@ public class MessagesTotalVisitor implements EntryVisitor {
 
 
 	private ArrayList<Entry> entries;
-	int counter;
+	private int counter;
 	
 	@Override
 	public int visit(Entry treeLevel) {

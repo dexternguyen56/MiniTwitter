@@ -14,7 +14,9 @@ import miniTwitter.UserGroup;
  *
  */
 class CustomDefaultTreeCellRenderer extends DefaultTreeCellRenderer {
+	
 	private static final long serialVersionUID = 2L;
+	
 	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded, boolean leaf, int row, boolean hasFocus) {
 		super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
 			if (((DefaultMutableTreeNode)value).getUserObject() instanceof UserGroup) {

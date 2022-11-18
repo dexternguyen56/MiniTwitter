@@ -16,7 +16,7 @@ import miniTwitter.UserGroup;
 public class GroupTotalVisitor implements EntryVisitor {
 
 	private ArrayList<Entry> entries;
-	int counter;
+	private int counter;
 	
 	@Override
 	public int visit(Entry treeLevel) {

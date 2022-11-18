@@ -30,25 +30,25 @@ public class UserView {
 	
 	private DefaultListModel<String> followingModel;
 	
-	boolean skip;
+	private boolean skip;
 	
 	
-	JFrame userFrame;
+	private JFrame userFrame;
 	
-	JButton btnFollow;
-	JButton btnTweet;
+	private JButton btnFollow;
+	private JButton btnTweet;
 	
-	JLabel labelFollowing;
-	JLabel labelNewsFeed;
+	private JLabel labelFollowing;
+	private JLabel labelNewsFeed;
 	
-	JTextField textUser;
-	JTextField testMsg;
+	private JTextField textUser;
+	private JTextField testMsg;
 	
-	JScrollPane paneFollowing;
-	JScrollPane paneNewsFeed;
+	private JScrollPane paneFollowing;
+	private JScrollPane paneNewsFeed;
 	
-	JList<String> listFollowing;
-	JList<String> listNewsFeed;
+	private JList<String> listFollowing;
+	private JList<String> listNewsFeed;
 	
 	
 
@@ -133,8 +133,8 @@ public class UserView {
 				String newMsg = testMsg.getText();
 				if (!newMsg.equals("")) {
 
-					user.addMessage(newMsg);
-					user.notifyObservers(newMsg);
+					user.setMessage(newMsg);
+				
 					
 				}
 				testMsg.setText("");

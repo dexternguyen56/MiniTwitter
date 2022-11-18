@@ -61,8 +61,9 @@ public class User extends Subject implements Observer  {
 		return messages;
 	}
 	
-	public void addMessage(String message) {
+	public void setMessage(String message) {
 		messages.add(message);
+		notifyObservers(message);
 	}
 	
 

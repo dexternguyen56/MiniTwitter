@@ -1,6 +1,8 @@
 package miniTwitter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import javax.swing.*;  
 import javax.swing.tree.*;
 
@@ -12,17 +14,21 @@ import javax.swing.tree.*;
  */
 public class TreeData {
 
-	DefaultMutableTreeNode root;
+	private DefaultMutableTreeNode root;
 	private JTree tree;
+	
+
 	
 	private ArrayList<String> users;
 	private ArrayList<String> groups;
-
+	
 
 	public TreeData() {
 		
 		users = new ArrayList<String>();
 		groups = new ArrayList<String>();
+		
+		
 		root = addGroup("Root",null);
 		tree = new JTree(root);
 	}
@@ -38,6 +44,7 @@ public class TreeData {
 	
 	// Check for valid user name in the list
 	public boolean checkUser(String ID) {
+//		return users.contains(ID);
 		return users.contains(ID);
 	}
 	

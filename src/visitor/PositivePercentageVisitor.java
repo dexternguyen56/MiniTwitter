@@ -17,9 +17,9 @@ import miniTwitter.UserGroup;
  */
 public class PositivePercentageVisitor implements EntryVisitor {
 	 
-	private ArrayList<String> positiveWords = new ArrayList<>(Arrays.asList("great","awesome","good","nice", "best"));
+	private ArrayList<String> positiveWords = new ArrayList<>(Arrays.asList("amazing","great","awesome","good","nice","best"));
 	private ArrayList<Entry> entries;
-	int counter;
+	private int counter;
 	
 	@Override
 	public int visit(Entry treeLevel) {
