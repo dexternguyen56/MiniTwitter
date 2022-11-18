@@ -21,14 +21,16 @@ import java.util.ArrayList;
  */
 public class UserView {
 	
-	
+	// UserView holds reference to TreeData for searching, and get User info from the current node
 	private User user;
 	private TreeData tree;
 	private DefaultMutableTreeNode userNode;
-	private DefaultListModel <String> newsFeedModel;
-	private ArrayList<String> sourceData ;
 	
+	//Models
+	private DefaultListModel <String> newsFeedModel;
 	private DefaultListModel<String> followingModel;
+	
+
 	
 	private boolean skip;
 	
@@ -59,6 +61,7 @@ public class UserView {
 		this.tree = tree;
 		userNode = entry;
 		user = (User)userNode.getUserObject();
+		
 		user.setUserView(this);
 		userFrame = new JFrame("User View: " + user);
 		createPanel();
@@ -76,18 +79,19 @@ public class UserView {
 		userFrame.setResizable(false);
 		userFrame.setBounds(100, 100, 388, 422);
 		userFrame.setLayout(null);
-		userFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//userFrame.setDefaultCloseOperation(JFrame.);
 
 		followingModel = new DefaultListModel<String>();
-		sourceData = user.getFollowings();
+	
 		skip = true;
-		for(String user: sourceData) {
+		for(String following: user.getFollowings()) {
 			if(skip) {
 				skip = false;
 				continue;
 			}
-			followingModel.addElement(user.toString());
+			followingModel.addElement(following);
 		}
+		
 		
 
 		textUser = new JTextField();
@@ -100,15 +104,17 @@ public class UserView {
 		userFrame.add(btnFollow);
 		btnFollow.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
-				String newFollower = textUser.getText();
+				String newFollowing = textUser.getText();
 				//  Check if the new follower name is valid and exist
-				if (!newFollower.equals("")) {
-					if (tree.checkUser(newFollower)) { 
-						followingModel.addElement(newFollower);
-						user.setFollowings(newFollower);
+				if (!newFollowing.equals("")) {
+					if (tree.searchUser(newFollowing) != null) { 
+						
+						//Add to following model and set following for user
+						followingModel.addElement(newFollowing);
+						user.setFollowings(newFollowing);
 						
 						// Find the follower and use observer
-						User follower = (User)tree.searchUser(newFollower).getUserObject();
+						User follower = (User)tree.searchUser(newFollowing).getUserObject();
 						follower.attach(user);
 					
 					} 

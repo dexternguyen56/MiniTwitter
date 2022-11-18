@@ -10,7 +10,7 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import miniTwitter.UserGroup;
 
 /**
- * Custom TreeCellRenderer to display directory Icon,
+ * Custom TreeCellRenderer to display directory Icon
  *
  */
 class CustomDefaultTreeCellRenderer extends DefaultTreeCellRenderer {

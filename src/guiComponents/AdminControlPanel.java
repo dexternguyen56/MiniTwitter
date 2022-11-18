@@ -3,6 +3,7 @@ import visitor.GroupTotalVisitor;
 import visitor.MessagesTotalVisitor;
 import visitor.PositivePercentageVisitor;
 import visitor.UserTotalVisitor;
+import visitor.Visitable;
 
 import javax.swing.*;
 import javax.swing.tree.*;
@@ -25,24 +26,36 @@ import java.awt.event.ActionListener;
  */
 public class AdminControlPanel {
 	
+	//Singleton pattern: instance of AdminControlPanel 
 	private static AdminControlPanel instance; 
+	
+	//CurrentNode, and newNode to be added
 	private DefaultMutableTreeNode currentNode;
+	private DefaultMutableTreeNode newNode;
+	
+	//Tree data 
 	private TreeData treeData;
 	
+	// UI Components
 	private JTree tree;
 	private JScrollPane scrollPane;
 	private DefaultTreeModel treeModel;
 	
+	// Main Jframe
 	private JFrame frame;
 	
+	// TexField
 	private JTextField textUser;
 	private JTextField textGroup;
 	
+	// Buttons
 	private JButton btnPosPercent;
 	private JButton btnMsgTotal;
 	private JButton btnGroupTotal;
 	private JButton btnUserTotal ;
 	private JButton btnOpenUserView;
+	
+	// Staistic and message to display for visitor pattern
 	
 	int statistic;
 	private String message;
@@ -56,15 +69,15 @@ public class AdminControlPanel {
 	
 
 	private AdminControlPanel() {
-		treeData = new TreeData();
+		treeData = TreeData.getInstance();
 		createPanel();
 	    frame.setVisible(true); 
 		
 	}
 	
-
+	
+	// create panel for admin control
 	private void createPanel() {
-		
 		// Initiate the admid panel
 		frame = new JFrame("Admin Control");
 		frame.setBounds(100, 100, 631, 498);
@@ -75,9 +88,9 @@ public class AdminControlPanel {
 	   
 
 	    tree = treeData.getTree();
-	   
 	    tree.setCellRenderer(new CustomDefaultTreeCellRenderer());
-	    // Get the latest selected path or return null
+	    
+	    // Get the latest selected path or return null for the currentNode is being selected
 	    tree.addTreeSelectionListener(new TreeSelectionListener() {
 	        public void valueChanged(TreeSelectionEvent e) {
 	        	DefaultMutableTreeNode node = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
@@ -110,23 +123,20 @@ public class AdminControlPanel {
 			public void actionPerformed(ActionEvent e) {
 				//if the text is not empty
 				if (!textUser.getText().equals("")) {
-					DefaultMutableTreeNode newNode;
-
-					if (currentNode != null && currentNode.getUserObject() instanceof UserGroup) {
-						newNode = treeData.addUser(textUser.getText(), currentNode);
-					} else {
-						
-						currentNode = (DefaultMutableTreeNode)currentNode.getParent();
-						newNode = treeData.addUser(textUser.getText(),currentNode);
-					} 
 					
-					if (newNode != null) {
-						treeModel.reload();
+					// Set currentNode = root if it's null or to the parent of the current user
+					if (currentNode == null) {
+						currentNode = (DefaultMutableTreeNode)treeModel.getRoot();
 					}
-						
-		
-					textUser.setText("");
-					currentNode = (DefaultMutableTreeNode)treeModel.getRoot();
+					else if (currentNode.getUserObject() instanceof User) {
+						currentNode = (DefaultMutableTreeNode)currentNode.getParent();
+					}
+					
+					newNode = treeData.addUser(textUser.getText(),currentNode);
+					
+					renderTree(textUser);
+					
+	
 		
 				}
 				
@@ -147,18 +157,18 @@ public class AdminControlPanel {
 	    	public void actionPerformed(ActionEvent e) {
 	    		//if the text is not empty
 				if (!textGroup.getText().equals("")) {
-					DefaultMutableTreeNode newNode;
-					if (currentNode != null && currentNode.getUserObject() instanceof UserGroup) {
-						newNode = treeData.addGroup(textGroup.getText(), currentNode);
-					} else {
-						currentNode = (DefaultMutableTreeNode)currentNode.getParent();
-						newNode = treeData.addGroup(textGroup.getText(),currentNode);
-					} 
-					if (newNode != null) {
-						treeModel.reload();
+					
+					// Set currentNode = root if it's null or to the parent of the current group
+					if (currentNode == null) {
+						currentNode = (DefaultMutableTreeNode)treeModel.getRoot();
 					}
-					textGroup.setText("");
-					currentNode = (DefaultMutableTreeNode)treeModel.getRoot();
+					else if (currentNode.getUserObject() instanceof User) {
+						currentNode = (DefaultMutableTreeNode)currentNode.getParent();
+					}
+					
+					newNode = treeData.addGroup(textGroup.getText(),currentNode);
+					
+					renderTree(textGroup);
 				}
 				
 		    }
@@ -184,9 +194,8 @@ public class AdminControlPanel {
 	    btnUserTotal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 	
-				statistic = ((Entry)treeData.getRoot().getUserObject()).accept(new UserTotalVisitor());
+				statistic = ((Entry) treeData.getRoot().getUserObject()).accept(new UserTotalVisitor());
 				
-
 				message = String.format("Mini Twitter has %d users.", statistic);
 				StatisticPanel statPanel = new StatisticPanel(message);
 				statPanel.setTitle("User Total");
@@ -240,14 +249,17 @@ public class AdminControlPanel {
 	    // Build show positive percentage 
 	    btnPosPercent= new JButton("Show Positive Percentage");
 	    btnPosPercent.setBounds(448, 402, 159, 48);
+	    frame.getContentPane().add(btnPosPercent);
 	    btnPosPercent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				//Count Positive words
 				statistic = ((Entry)treeData.getRoot().getUserObject()).accept(new PositivePercentageVisitor());
 				
-
+				//Get total messages
 			    int totalMsg = ((Entry)treeData.getRoot().getUserObject()).accept(new MessagesTotalVisitor());
 				
-			    
+			    //Calculate the percentage of positive msg
 			    double result = (totalMsg == 0) ? 0.0 : (((double) statistic / totalMsg) * 100);
 			   
 			  
@@ -259,9 +271,21 @@ public class AdminControlPanel {
 			}
 		});
 
-	    
-	    frame.getContentPane().add(btnPosPercent);
-
+	}
+	
+	
+	/**
+	 * Reset the current text field
+	 * Reload the treeModel
+	 * Expand all rows for the JTree since reload will collapse the new added fields 
+	 */
+	private void renderTree(JTextField field) {
+		field.setText("");
+		treeModel.reload();
+		currentNode = (DefaultMutableTreeNode)treeModel.getRoot();
+		for (int i = 0; i < tree.getRowCount(); i++) {
+	    	   tree.expandRow(i);
+	    	}
 	}
 	
 
