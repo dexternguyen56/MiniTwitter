@@ -13,7 +13,6 @@ import guiComponents.AdminControlPanel;
  */
 public class MiniTwitterDriver {
 	public static void main(String args[]) {
-		AdminControlPanel.getInstance();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
