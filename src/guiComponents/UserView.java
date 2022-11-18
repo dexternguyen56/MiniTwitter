@@ -16,7 +16,7 @@ import java.util.ArrayList;
 /**
  * @author Tran Nguyen
  * 
- * User View panel class
+ * User View panel class to display current User
  *
  */
 public class UserView {
