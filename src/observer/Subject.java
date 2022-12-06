@@ -46,10 +46,10 @@ public abstract class Subject extends Entry {
 	 * notify other observers
 	 * 
 	 */
-	public void notifyObservers(String message) {
+	public void notifyObservers(String message, long updatedTime) {
 		
 		for (Observer obs: observers) {
-			obs.update(this, message);
+			obs.update(this, message, updatedTime);
 		}
 	}
 }

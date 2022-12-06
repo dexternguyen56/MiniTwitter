@@ -70,7 +70,7 @@ public class StatisticPanel extends JDialog {
 	
 		textStatistic.setBackground(UIManager.getColor("Button.background"));
     	textStatistic.setEditable(false);
-		textStatistic.setBounds(100, 30, 200, 60);
+		textStatistic.setBounds(120, 30, 200, 60);
 		getContentPane().add(textStatistic);
 	}
 	

@@ -6,5 +6,5 @@ package observer;
  * Observer pattern interface
  */
 public interface Observer {
-	public void update(Subject user, String tweet);
+	public void update(Subject user, String tweet, long time);
 }

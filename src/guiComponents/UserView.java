@@ -9,6 +9,7 @@ import miniTwitter.User;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
 import java.util.ArrayList;
 
 
@@ -52,6 +53,10 @@ public class UserView {
 	private JList<String> listFollowing;
 	private JList<String> listNewsFeed;
 	
+	private JTextField created;
+	private JTextField updated;
+	
+	
 	
 
 	/**
@@ -77,9 +82,9 @@ public class UserView {
 	private void createPanel() {
 
 		userFrame.setResizable(false);
-		userFrame.setBounds(100, 100, 388, 422);
+		userFrame.setBounds(100, 100, 388, 455);
 		userFrame.setLayout(null);
-		//userFrame.setDefaultCloseOperation(JFrame.);
+		
 
 		followingModel = new DefaultListModel<String>();
 	
@@ -176,7 +181,40 @@ public class UserView {
 		paneNewsFeed.setColumnHeaderView(labelNewsFeed);
 		
 		userFrame.add(paneNewsFeed);
+		
+		
+		
+		created = new JTextField();
+		updated = new JTextField();
+		
+		created.setEditable(false);
+		updated.setEditable(false);
+		
+		created.setBounds(10, 375, 354, 20);
+		updated.setBounds(10, 395, 354, 20);
+		
+		created.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		updated.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		
+		updateDates();
+		
+		
+		userFrame.add(created);
+		userFrame.add(updated);
+		
+		//Updated time
 	
+	}
+	
+	private String timeConvert(long time) {
+		return DateFormat.getDateTimeInstance().format(time);
+	}
+	
+
+	
+	public void updateDates() {
+		created.setText("Creation Time: " + timeConvert(user.getCreationTime()));
+		updated.setText("Last Updated: " + timeConvert(user.getLastUpdated()));
 	}
 	
 

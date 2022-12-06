@@ -13,4 +13,5 @@ public interface EntryVisitor {
 
 	public int visit(Entry entry);
 	
+
 }

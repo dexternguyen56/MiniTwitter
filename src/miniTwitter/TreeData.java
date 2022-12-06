@@ -28,6 +28,8 @@ public class TreeData {
 	//We only need users for now but we can send messages to the whole group if needed in the future
 	private HashMap<String,HashMap<String,Object>> users;
 	private HashMap<String,HashMap<String,Object>> groups;
+	
+	private String lastUpdatedUserID;
 
 
 	public static TreeData getInstance() {
@@ -131,6 +133,8 @@ public class TreeData {
 
 		return null;
 	}
+	
+	
 	
 	public JTree getTree() {
 		return tree;

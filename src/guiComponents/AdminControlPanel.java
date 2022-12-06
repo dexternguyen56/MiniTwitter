@@ -1,5 +1,7 @@
 package guiComponents;
 import visitor.GroupTotalVisitor;
+import visitor.IDValidationVisitor;
+import visitor.LastUpdatedUserVisitor;
 import visitor.MessagesTotalVisitor;
 import visitor.PositivePercentageVisitor;
 import visitor.UserTotalVisitor;
@@ -202,6 +204,23 @@ public class AdminControlPanel {
 				statPanel.setVisible(true);
 			}
 		});
+	    
+	    // Build show invalid ID
+	    btnUserTotal = new JButton("ID Verifitication");
+	    btnUserTotal.setBounds(279, 285, 160, 48);
+	    frame.getContentPane().add(btnUserTotal );
+	    btnUserTotal.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+	
+				statistic = ((Entry) treeData.getRoot().getUserObject()).accept(new IDValidationVisitor());
+//				
+				message = String.format("Total of invalid ID: %d ", statistic);
+				StatisticPanel statPanel = new StatisticPanel(message);
+				statPanel.setTitle("Total of Invalid ID");
+				statPanel.setVisible(true);
+			}
+		});
+
 
 	    
 	    
@@ -223,6 +242,35 @@ public class AdminControlPanel {
 				statPanel.setVisible(true);
 			}
 		});
+	    
+	    // Last updated user
+	    btnGroupTotal = new JButton("Last Updated User");
+	    btnGroupTotal.setBounds(448, 285, 159, 48);
+	    frame.getContentPane().add(btnGroupTotal);  
+	    btnGroupTotal.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				LastUpdatedUserVisitor idVisitor = new LastUpdatedUserVisitor();
+				
+				int statistic = ((Entry)treeData.getRoot().getUserObject()).accept(idVisitor);
+				
+				if(statistic == 0) {
+					message = "There is no user!";
+				}
+				else {
+					User user = idVisitor.getLastUpdatedUser();
+					
+					message = String.format("User: @%s\n%s", user.getID(),user.getConvertedTime());
+				}
+						
+				
+	
+				StatisticPanel statPanel = new StatisticPanel(message);
+				statPanel.setTitle("Last Updated User");
+				statPanel.setVisible(true);
+			}
+		});
+
 
 	    
 	    

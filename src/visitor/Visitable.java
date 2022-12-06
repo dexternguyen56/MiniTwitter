@@ -8,4 +8,5 @@ package visitor;
  */
 public interface Visitable {
 	abstract public int accept(EntryVisitor visitor);
+
 }

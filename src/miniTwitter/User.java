@@ -1,5 +1,6 @@
 package miniTwitter;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 
 import guiComponents.UserView;
@@ -24,10 +25,13 @@ public class User extends Subject implements Observer  {
 	private ArrayList<String> followings;
 	private ArrayList<String> followers;
 	private ArrayList<String> messages;
+	private long lastUpdatedTime;
 
 
 	public User(String ID) {
 		super(ID);
+		
+		lastUpdatedTime = getCreationTime();
 		
 		followings = new ArrayList<String>();
 		followers = new ArrayList<String>();
@@ -35,6 +39,8 @@ public class User extends Subject implements Observer  {
 		
 		// User will follow themselves to get the message updated but won't show on the following list
 		setFollowings(this.getID());
+		
+		
 		
 		attach(this);
 	}
@@ -52,6 +58,10 @@ public class User extends Subject implements Observer  {
 		return userView;
 	}
 	
+	public long getLastUpdated() {
+		return lastUpdatedTime;
+	}
+	
 	public void setUserView(UserView view) {
 		userView = view;
 	}
@@ -63,7 +73,7 @@ public class User extends Subject implements Observer  {
 	
 	public void setMessage(String message) {
 		messages.add(message);
-		notifyObservers(message);
+		notifyObservers(message, System.currentTimeMillis());
 	}
 	
 
@@ -76,7 +86,7 @@ public class User extends Subject implements Observer  {
 	/**
 	 * Update this the news feed for this user
 	 */
-	public void update(Subject subject, String message) {
+	public void update(Subject subject, String message, long updatedTime) {
 		
 		String ID = subject.getID();
 		
@@ -84,7 +94,19 @@ public class User extends Subject implements Observer  {
 			followers.add(ID);
 		}
 		
+		lastUpdatedTime = updatedTime;
+		
+//		System.out.println(this.getID() + " last updated: " + lastUpdatedTime );
+		
+		//Update UI
+		userView.updateDates();
+		
 		userView.addNewsFeed(subject.toString(), message);
+	}
+	
+	
+	public String getConvertedTime() {
+		return DateFormat.getDateTimeInstance().format(lastUpdatedTime);
 	}
 
 	
