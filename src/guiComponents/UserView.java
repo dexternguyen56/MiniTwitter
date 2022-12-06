@@ -74,8 +74,15 @@ public class UserView {
 	}
 	
 	
-	public void addNewsFeed(String ID, String message) {
-		newsFeedModel.addElement("@" + ID + ": " + message);
+	public void addNewsFeed(String message) {
+		newsFeedModel.addElement(message);
+
+	}
+	
+	public void renderNewsFeed() {
+		for(String msg: user.getMessages()) {
+			addNewsFeed(msg);
+		}
 	}
 	
 
@@ -144,7 +151,7 @@ public class UserView {
 				String newMsg = testMsg.getText();
 				if (!newMsg.equals("")) {
 
-					user.setMessage(newMsg);
+					user.setMessage("@" + user.getID()+": " + newMsg);
 				
 					
 				}
@@ -179,6 +186,8 @@ public class UserView {
 		
 		labelNewsFeed = new JLabel("News Feed");
 		paneNewsFeed.setColumnHeaderView(labelNewsFeed);
+		
+		renderNewsFeed();
 		
 		userFrame.add(paneNewsFeed);
 		

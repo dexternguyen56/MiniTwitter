@@ -31,7 +31,7 @@ public class MessagesTotalVisitor implements EntryVisitor {
 				counter += visit(entry);   
 			}
 			else {
-				counter += ((User)entry).getMessages().size(); // Get the size of the messages list holds by the User
+				counter += ((User)entry).getCurrentMsg(); // Get the size of the messages list holds by the User
 			}
 		}
 		return counter;

@@ -26,12 +26,14 @@ public class User extends Subject implements Observer  {
 	private ArrayList<String> followers;
 	private ArrayList<String> messages;
 	private long lastUpdatedTime;
+	private int currentMsg;
 
 
 	public User(String ID) {
 		super(ID);
 		
 		lastUpdatedTime = getCreationTime();
+		currentMsg = 0;
 		
 		followings = new ArrayList<String>();
 		followers = new ArrayList<String>();
@@ -72,7 +74,8 @@ public class User extends Subject implements Observer  {
 	}
 	
 	public void setMessage(String message) {
-		messages.add(message);
+		
+		currentMsg++;
 		notifyObservers(message, System.currentTimeMillis());
 	}
 	
@@ -96,12 +99,19 @@ public class User extends Subject implements Observer  {
 		
 		lastUpdatedTime = updatedTime;
 		
-//		System.out.println(this.getID() + " last updated: " + lastUpdatedTime );
+		messages.add(message);
+		
+
 		
 		//Update UI
 		userView.updateDates();
 		
-		userView.addNewsFeed(subject.toString(), message);
+		userView.addNewsFeed(message);
+	}
+	
+	//
+	public int getCurrentMsg() {
+		return currentMsg;
 	}
 	
 	

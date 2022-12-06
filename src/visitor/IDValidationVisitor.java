@@ -17,8 +17,14 @@ public class IDValidationVisitor implements EntryVisitor {
 
 
 	private ArrayList<Entry> entries;
-	private HashSet<String> idSet = new HashSet<>();
+	private HashSet<String> idSet ;
+	private ArrayList<String> invalidID ;
 	private int counter;
+	
+	public IDValidationVisitor() {
+		idSet = new HashSet<>();
+		invalidID = new ArrayList<>();
+	}
 	
 	/**
 	 *
@@ -35,21 +41,26 @@ public class IDValidationVisitor implements EntryVisitor {
 			
 			// Since we already validated duplication ID for user and group
 			// We will add ID to the HashSet and increment the counter if we found duplicated
-			// user and group ID, or space
+			// user between group ID, or if there is any space
 			
 			if(idSet.contains(entry.getID()) || entry.getID().contains(" ")){
 				counter++;
+				invalidID.add(entry.getID());
 			}
 			else {
 				idSet.add(entry.getID());
 			}
-			// Recursive to traverse that group that group
+			// Recursive to traverse that group
 			if(entry instanceof UserGroup) {
 				counter += visit(entry);   
 			}
 			
 		}
 		return counter;
+	}
+	
+	public ArrayList<String> getInvalidID(){
+		return invalidID;
 	}
 	
 

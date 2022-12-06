@@ -15,9 +15,14 @@ import miniTwitter.UserGroup;
 public class LastUpdatedUserVisitor implements EntryVisitor {
 	
 	private ArrayList<Entry> entries;
-	private long lastedTime = 0;
+	private long lastedTime;
 	private int result;
 	private User user;
+	
+	public LastUpdatedUserVisitor() {
+		lastedTime = 0;
+		result = 0;
+	}
 	
 
 
@@ -28,7 +33,7 @@ public class LastUpdatedUserVisitor implements EntryVisitor {
 		entries = ((UserGroup)treeLevel).getChildNode();
 		
 		// We only need this to traverse the tree to get the ID updated
-		result = 0;
+	
 		
 		for (Entry entry: entries) {
 			
@@ -36,7 +41,7 @@ public class LastUpdatedUserVisitor implements EntryVisitor {
 				result = visit(entry); 
 			}
 			else {
-				if (lastedTime < ((User) entry).getLastUpdated()) {
+				if (lastedTime <= ((User) entry).getLastUpdated()) {
 					
 					lastedTime = ((User) entry).getLastUpdated();
 					

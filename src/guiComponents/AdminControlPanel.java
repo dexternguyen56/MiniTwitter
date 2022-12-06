@@ -57,6 +57,9 @@ public class AdminControlPanel {
 	private JButton btnUserTotal ;
 	private JButton btnOpenUserView;
 	
+	IDValidationVisitor validVisitor;
+	LastUpdatedUserVisitor idVisitor;
+	
 	// Staistic and message to display for visitor pattern
 	
 	int statistic;
@@ -211,10 +214,26 @@ public class AdminControlPanel {
 	    frame.getContentPane().add(btnUserTotal );
 	    btnUserTotal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				
 	
-				statistic = ((Entry) treeData.getRoot().getUserObject()).accept(new IDValidationVisitor());
-//				
-				message = String.format("Total of invalid ID: %d ", statistic);
+				statistic = ((Entry) treeData.getRoot().getUserObject()).accept(validVisitor = new IDValidationVisitor());
+				
+				if(statistic == 0) {
+					message = "There is no invalid ID!";
+				}
+				else{
+					//Output the total of invalid ID and the invalid ID list
+					message = String.format("Total of invalid ID: %d\n[", statistic);
+					
+					for(String id: validVisitor.getInvalidID()) {
+						message += id + ", ";
+					}
+					
+					message = message.substring(0, message.length() - 2) + "]"; 
+				}
+			
+				
 				StatisticPanel statPanel = new StatisticPanel(message);
 				statPanel.setTitle("Total of Invalid ID");
 				statPanel.setVisible(true);
@@ -250,9 +269,9 @@ public class AdminControlPanel {
 	    btnGroupTotal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				LastUpdatedUserVisitor idVisitor = new LastUpdatedUserVisitor();
+
 				
-				int statistic = ((Entry)treeData.getRoot().getUserObject()).accept(idVisitor);
+				statistic = ((Entry)treeData.getRoot().getUserObject()).accept(idVisitor = new LastUpdatedUserVisitor());
 				
 				if(statistic == 0) {
 					message = "There is no user!";
